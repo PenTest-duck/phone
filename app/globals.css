@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+/* iOS System Colors */
+:root {
+  --ios-blue: #007AFF;
+  --ios-green: #34C759;
+  --ios-indigo: #5856D6;
+  --ios-orange: #FF9500;
+  --ios-pink: #FF2D55;
+  --ios-purple: #AF52DE;
+  --ios-red: #FF3B30;
+  --ios-teal: #5AC8FA;
+  --ios-yellow: #FFCC00;
+  
+  /* Grays */
+  --ios-gray: #8E8E93;
+  --ios-gray-2: #636366;
+  --ios-gray-3: #48484A;
+  --ios-gray-4: #3A3A3C;
+  --ios-gray-5: #2C2C2E;
+  --ios-gray-6: #1C1C1E;
+  
+  /* UI Colors */
+  --ios-separator: rgba(60, 60, 67, 0.36);
+  --ios-separator-dark: rgba(84, 84, 88, 0.65);
+  --ios-fill: rgba(120, 120, 128, 0.2);
+  --ios-fill-dark: rgba(120, 120, 128, 0.36);
+  
+  /* Phone dimensions - iPhone 14 Pro (19.5:9 aspect ratio) */
+  --phone-width: 393px;
+  --phone-height: 852px;
+  --phone-aspect-ratio: 9 / 19.5;
+  
+  /* Status bar height */
+  --status-bar-height: 50px;
+  
+  /* Dock height */
+  --dock-height: 78px;
+  
+  /* Home indicator */
+  --home-indicator-height: 34px;
+}
+
+@theme inline {
+  --color-ios-blue: var(--ios-blue);
+  --color-ios-green: var(--ios-green);
+  --color-ios-gray: var(--ios-gray);
+  --color-ios-gray-6: var(--ios-gray-6);
+}
+
+/* Use system font stack that includes SF Pro on Apple devices */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', sans-serif;
+  background: #000;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Disable text selection for phone-like feel */
+.phone-container {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* iOS-style blur backgrounds */
+.ios-blur {
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+}
+
+.ios-blur-light {
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.ios-blur-dark {
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  background: rgba(30, 30, 30, 0.7);
+}
+
+/* iOS Widget style */
+.ios-widget {
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+}
+
+/* iOS App Icon style */
+.ios-app-icon {
+  border-radius: 22%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+/* iOS Button press effect */
+.ios-pressable {
+  transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+}
+
+.ios-pressable:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+/* Home indicator bar */
+.home-indicator {
+  width: 134px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 3px;
+}
+
+/* Lock screen action buttons */
+.lock-action-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Scrollbar hiding */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* iOS Search bar */
+.ios-search-bar {
+  background: rgba(118, 118, 128, 0.24);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+/* Control center toggle */
+.cc-toggle {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.cc-toggle.active {
+  background: #fff;
+  color: var(--ios-blue);
+}
+
+/* Range slider styling for control center */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 0;
+  height: 0;
+  border: none;
+}
+
+/* Page indicator dots */
+.page-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.page-dot.active {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Dock blur */
+.dock-blur {
+  backdrop-filter: blur(50px) saturate(180%);
+  -webkit-backdrop-filter: blur(50px) saturate(180%);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Time font for lock screen - uses SF Pro Rounded style */
+.lock-time {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Rounded', 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  font-weight: 300;
+  letter-spacing: -2px;
+}
+
+/* Status bar styling */
+.status-bar-text {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
