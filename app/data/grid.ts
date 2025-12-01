@@ -1,4 +1,4 @@
-import { homeScreenApps, secondPageApps, defaultWidgets } from "./apps";
+import { homeScreenApps, secondPageApps, AppDefinition } from "./apps";
 
 // Grid dimensions
 export const GRID_COLUMNS = 4;
@@ -187,68 +187,75 @@ export function moveItem(
   return newPages;
 }
 
-// Create initial page layouts from existing app data
+// Create a GridItem from an AppDefinition using its explicit gridPosition
+function createAppGridItem(app: AppDefinition): GridItem | null {
+  if (!app.gridPosition) return null;
+
+  return {
+    id: `grid-app-${app.id}`,
+    type: "app",
+    position: { row: app.gridPosition.row, col: app.gridPosition.col },
+    appId: app.id,
+  };
+}
+
+// Create initial page layouts from existing app data using explicit positions
 function createInitialPages(): PageLayout[] {
+  // Combine all apps that have grid positions
+  const allAppsWithPositions = [...homeScreenApps, ...secondPageApps].filter(
+    (app) => app.gridPosition !== undefined
+  );
+
+  // Group apps by page
+  const appsByPage = new Map<number, AppDefinition[]>();
+  for (const app of allAppsWithPositions) {
+    const pageNum = app.gridPosition!.page;
+    if (!appsByPage.has(pageNum)) {
+      appsByPage.set(pageNum, []);
+    }
+    appsByPage.get(pageNum)!.push(app);
+  }
+
+  // Determine the maximum page number needed
+  const maxPage = Math.max(...appsByPage.keys(), 1);
+
   const pages: PageLayout[] = [];
 
-  // Page 1: Widgets (top-left 2x2 and top-right 2x2) + remaining apps
-  const page1Items: GridItem[] = [];
+  for (let pageIndex = 0; pageIndex <= maxPage; pageIndex++) {
+    const pageItems: GridItem[] = [];
 
-  // Add weather widget at position (0,0) - takes 2x2
-  page1Items.push({
-    id: "grid-weather-widget",
-    type: "widget",
-    position: { row: 0, col: 0 },
-    size: { width: 2, height: 2 },
-    widgetId: "weather-widget",
-  });
+    // Add widgets to page 0
+    if (pageIndex === 0) {
+      // Add weather widget at position (0,0) - takes 2x2
+      pageItems.push({
+        id: "grid-weather-widget",
+        type: "widget",
+        position: { row: 0, col: 0 },
+        size: { width: 2, height: 2 },
+        widgetId: "weather-widget",
+      });
 
-  // Add calendar widget at position (0,2) - takes 2x2
-  page1Items.push({
-    id: "grid-calendar-widget",
-    type: "widget",
-    position: { row: 0, col: 2 },
-    size: { width: 2, height: 2 },
-    widgetId: "calendar-widget",
-  });
+      // Add calendar widget at position (0,2) - takes 2x2
+      pageItems.push({
+        id: "grid-calendar-widget",
+        type: "widget",
+        position: { row: 0, col: 2 },
+        size: { width: 2, height: 2 },
+        widgetId: "calendar-widget",
+      });
+    }
 
-  // Add first page apps starting at row 2
-  let appIndex = 0;
-  for (let row = 2; row < GRID_ROWS; row++) {
-    for (let col = 0; col < GRID_COLUMNS; col++) {
-      if (appIndex < homeScreenApps.length) {
-        page1Items.push({
-          id: `grid-app-${homeScreenApps[appIndex].id}`,
-          type: "app",
-          position: { row, col },
-          appId: homeScreenApps[appIndex].id,
-        });
-        appIndex++;
+    // Add apps for this page using their explicit positions
+    const appsForPage = appsByPage.get(pageIndex) || [];
+    for (const app of appsForPage) {
+      const gridItem = createAppGridItem(app);
+      if (gridItem) {
+        pageItems.push(gridItem);
       }
     }
+
+    pages.push({ id: `page-${pageIndex + 1}`, items: pageItems });
   }
-
-  pages.push({ id: "page-1", items: page1Items });
-
-  // Page 2: Remaining apps
-  const page2Items: GridItem[] = [];
-  let page2AppIndex = 0;
-
-  for (let row = 0; row < GRID_ROWS; row++) {
-    for (let col = 0; col < GRID_COLUMNS; col++) {
-      if (page2AppIndex < secondPageApps.length) {
-        page2Items.push({
-          id: `grid-app-${secondPageApps[page2AppIndex].id}`,
-          type: "app",
-          position: { row, col },
-          appId: secondPageApps[page2AppIndex].id,
-        });
-        page2AppIndex++;
-      }
-    }
-  }
-
-  pages.push({ id: "page-2", items: page2Items });
 
   return pages;
 }

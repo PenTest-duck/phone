@@ -23,6 +23,12 @@ export function AppIcon({ app, size = "normal", onTap }: AppIconProps) {
       return;
     }
 
+    // If the app has a URL, open it in a new browser tab
+    if (app.url) {
+      window.open(app.url, "_blank", "noopener,noreferrer");
+      return;
+    }
+
     // Check if the app has an implementation and open it
     if (implementedApps.has(app.id)) {
       openApp(app.id);
