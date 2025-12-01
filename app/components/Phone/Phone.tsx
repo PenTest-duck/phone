@@ -9,6 +9,7 @@ import { ControlCenter } from "@/app/components/ControlCenter/ControlCenter";
 import { TodayView } from "@/app/components/TodayView/TodayView";
 import { Calculator } from "@/app/components/Apps/Calculator";
 import { Messages } from "@/app/components/Apps/Messages";
+import { YouTube } from "@/app/components/Apps/YouTube";
 import { WebApp } from "@/app/components/Apps/WebApp";
 import { isWebApp, getWebAppConfig } from "@/app/data/webApps";
 import { AnimatePresence, motion } from "framer-motion";
@@ -29,6 +30,8 @@ function AppRenderer({ appId }: { appId: string }) {
       return <Calculator />;
     case "messages":
       return <Messages />;
+    case "youtube":
+      return <YouTube />;
     default:
       return null;
   }

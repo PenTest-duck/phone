@@ -24,6 +24,7 @@ export const implementedApps = new Set<string>([
   "reddit",
   "spotify",
   "messages",
+  "youtube",
 ]);
 
 export interface WidgetDefinition {
@@ -221,6 +222,13 @@ export const secondPageApps: AppDefinition[] = [
     icon: "/app-icons/spotify.svg",
     hasImplementation: true,
     gridPosition: { page: 1, row: 2, col: 1 },
+  },
+  {
+    id: "youtube",
+    name: "YouTube",
+    icon: "/app-icons/youtube.svg",
+    hasImplementation: true,
+    gridPosition: { page: 1, row: 2, col: 2 },
   },
 
   // Row 6
