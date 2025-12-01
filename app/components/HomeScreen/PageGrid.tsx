@@ -127,6 +127,7 @@ export function PageGrid({
         drag={isEditMode}
         dragMomentum={false}
         dragElastic={0.1}
+        dragSnapToOrigin
         onDragEnd={(e, info) => handleDragEnd(item.id, item, e, info)}
         whileDrag={{ scale: 1.05, zIndex: 100 }}
         animate={
@@ -146,10 +147,16 @@ export function PageGrid({
             : undefined
         }
       >
-        <div className="aspect-square w-full">
+        <div
+          className="aspect-square w-full"
+          style={{ pointerEvents: isEditMode ? "none" : "auto" }}
+        >
           <Widget widget={widget} />
         </div>
-        <span className="text-white text-[10px] text-center drop-shadow-sm">
+        <span
+          className="text-white text-[10px] text-center drop-shadow-sm"
+          style={{ pointerEvents: isEditMode ? "none" : "auto" }}
+        >
           {widget.type.charAt(0).toUpperCase() + widget.type.slice(1)}
         </span>
       </motion.div>
@@ -177,6 +184,7 @@ export function PageGrid({
         drag={isEditMode}
         dragMomentum={false}
         dragElastic={0.1}
+        dragSnapToOrigin
         onDragEnd={(e, info) => handleDragEnd(item.id, item, e, info)}
         whileDrag={{ scale: 1.1, zIndex: 100 }}
         animate={
@@ -196,7 +204,9 @@ export function PageGrid({
             : undefined
         }
       >
-        <AppIcon app={app} />
+        <div style={{ pointerEvents: isEditMode ? "none" : "auto" }}>
+          <AppIcon app={app} />
+        </div>
       </motion.div>
     );
   };

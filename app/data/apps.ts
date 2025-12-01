@@ -14,6 +14,7 @@ export const implementedApps = new Set<string>([
   "calculator",
   "reddit",
   "spotify",
+  "messages",
 ]);
 
 export interface WidgetDefinition {
@@ -153,6 +154,7 @@ export const dockApps: AppDefinition[] = [
     icon: "/app-icons/messages.svg",
     color: "#32D74B",
     isSystemApp: true,
+    hasImplementation: true,
   },
   {
     id: "music",
